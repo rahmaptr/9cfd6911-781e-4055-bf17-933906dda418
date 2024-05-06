@@ -1,5 +1,6 @@
 import { pool } from "@/db/connection";
 import { Employee } from "@/db/types";
+import { errorHandler } from "@/utils/errorHandler";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
@@ -8,7 +9,7 @@ export async function GET() {
     const { rows } = await pool.query(query);
     return Response.json({ data: rows });
   } catch (error: any) {
-    return NextResponse.json({ message: "An error occurred" }, { status: 500 });
+    return errorHandler(error);
   }
 }
 
@@ -19,12 +20,6 @@ export async function POST(req: NextRequest) {
     const { rows } = await pool.query(query, [name, position, phone, email]);
     return Response.json({ message: "Employee added" , data: rows[0]});
   } catch (error: any) {
-    console.error(error);
-    const message = error.message;
-    if (message.includes("null value")) {
-      return NextResponse.json({ message: "All fields are required" }, { status: 400 });
-    } else {
-      return NextResponse.json({ message: "An error occurred" }, { status: 500 });
-    }
+    return errorHandler(error);
   }
 }

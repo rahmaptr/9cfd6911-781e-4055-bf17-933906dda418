@@ -1,5 +1,6 @@
 import { pool } from "@/db/connection";
 import { Employee } from "@/db/types";
+import { errorHandler } from "@/utils/errorHandler";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
@@ -12,18 +13,7 @@ export async function GET(
     if (rows.length === 0) throw new Error("not found");
     return Response.json({ data: rows });
   } catch (error: any) {
-    console.error(error);
-    if (error.message === "not found") {
-      return NextResponse.json(
-        { message: "Employee not found" },
-        { status: 404 }
-      );
-    } else {
-      return NextResponse.json(
-        { message: "An error occurred" },
-        { status: 500 }
-      );
-    }
+    return errorHandler(error);
   }
 }
 
@@ -44,19 +34,7 @@ export async function PUT(
     ]);
     return Response.json({ message: "Employee updated", data: rows[0] });
   } catch (error: any) {
-    console.error(error);
-    const message = error.message;
-    if (message.includes("null value")) {
-      return NextResponse.json(
-        { message: "All fields are required" },
-        { status: 400 }
-      );
-    } else {
-      return NextResponse.json(
-        { message: "An error occurred" },
-        { status: 500 }
-      );
-    }
+    return errorHandler(error);
   }
 }
 
@@ -74,8 +52,7 @@ export async function PATCH(
     const { rows } = await pool.query(query, [...values, id]);
     return Response.json({ message: "Employee updated", data: rows[0] });
   } catch (error: any) {
-    console.error(error);
-    return NextResponse.json({ message: "An error occurred" }, { status: 500 });
+    return errorHandler(error);
   }
 }
 
@@ -88,7 +65,6 @@ export async function DELETE(
     const { rows } = await pool.query(query, [id]);
     return Response.json({ message: "Employee deleted", data: rows[0] });
   } catch (error: any) {
-    console.error(error);
-    return NextResponse.json({ message: "An error occurred" }, { status: 500 });
+    return errorHandler(error);
   }
 }
