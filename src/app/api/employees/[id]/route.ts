@@ -1,7 +1,7 @@
 import { pool } from "@/db/connection";
 import { Employee } from "@/db/types";
 import { errorHandler } from "@/utils/errorHandler";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
 export async function GET(
   _: any,
