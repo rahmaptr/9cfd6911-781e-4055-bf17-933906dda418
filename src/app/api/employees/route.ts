@@ -11,13 +11,13 @@ export async function GET(req: NextRequest) {
         query += ` WHERE name ILIKE '%${value}%'`;
         break;
       case "position":
-        query += ` WHERE position = '${value}'`;
+        query += ` WHERE position ILIKE '%${value}%'`;
         break;
       case "phone":
-        query += ` WHERE phone = '${value}'`;
+        query += ` WHERE phone ILIKE '%${value}%'`;
         break;
       case "email":
-        query += ` WHERE email = '${value}'`;
+        query += ` WHERE email ILIKE '%${value}%'`;
         break;
       case "limit":
         query += ` LIMIT ${value}`;
