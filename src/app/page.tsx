@@ -1,4 +1,6 @@
+import { Button } from "@/components/ui/button";
 import { Employee } from "@/db/types";
+import { FaPlus } from "react-icons/fa6";
 
 export async function fetchData() {
   try {
@@ -16,27 +18,54 @@ export async function fetchData() {
 export default async function Home() {
   const employees: Employee[] = await fetchData();
   return (
-    <main>
-      <h1>Next.js App by Rahmah Putri Azzahra</h1>
-      <table>
+    <main className="flex flex-col h-auto">
+      <div className="flex flex-row justify-between px-4">
+        <h1 className="text-center text-4xl my-4">
+          Next.js App by Rahmah Putri Azzahra
+        </h1>
+        <Button variant={"link"}>
+          <FaPlus className="mt-7" size={"2rem"} />
+        </Button>
+      </div>
+      <table className="mx-4">
         <thead>
           <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Position</th>
-            <th>Phone</th>
-            <th>Email</th>
+            <th className="border p-1">
+              <Button variant={"link"} className="font-bold">
+                First Name
+              </Button>
+            </th>
+            <th className="border p-1">
+              <Button variant={"link"} className="font-bold">
+                Last Name
+              </Button>
+            </th>
+            <th className="border p-1">
+              <Button variant={"link"} className="font-bold">
+                Position
+              </Button>
+            </th>
+            <th className="border p-1">
+              <Button variant={"link"} className="font-bold">
+                Phone
+              </Button>
+            </th>
+            <th className="border p-1">
+              <Button variant={"link"} className="font-bold">
+                Email
+              </Button>
+            </th>
           </tr>
         </thead>
         <tbody>
           {Array.isArray(employees) &&
             employees.map((employee: Employee) => (
               <tr key={employee.id}>
-                <td>{employee.name.split(" ")[0]}</td>
-                <td>{employee.name.split(" ")[1]}</td>
-                <td>{employee.position}</td>
-                <td>{employee.phone}</td>
-                <td>{employee.email}</td>
+                <td className="border p-1">{employee.name.split(" ")[0]}</td>
+                <td className="border p-1">{employee.name.split(" ")[1]}</td>
+                <td className="border p-1">{employee.position}</td>
+                <td className="border p-1">{employee.phone}</td>
+                <td className="border p-1">{employee.email}</td>
               </tr>
             ))}
         </tbody>
