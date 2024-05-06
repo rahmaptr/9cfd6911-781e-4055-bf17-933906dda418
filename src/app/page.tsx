@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Employee } from "@/db/types";
+import Link from "next/link";
 import { FaPlus } from "react-icons/fa6";
 
 export async function fetchData() {
@@ -23,9 +24,11 @@ export default async function Home() {
         <h1 className="text-center text-4xl my-4">
           Next.js App by Rahmah Putri Azzahra
         </h1>
+        <Link href="/employees/new">
         <Button variant={"link"}>
           <FaPlus className="mt-7" size={"2rem"} />
         </Button>
+        </Link>
       </div>
       <table className="mx-4">
         <thead>
