@@ -3,10 +3,31 @@ import { Employee } from "@/db/types";
 import { errorHandler } from "@/utils/errorHandler";
 import { NextRequest } from "next/server";
 
-export async function GET() {
-  const query = "SELECT * FROM employees";
+export async function GET(req: NextRequest) {
+  let query = "SELECT * FROM employees";
+  req.nextUrl.searchParams.forEach((value, key) => {
+    switch (key) {
+      case "name":
+        query += ` WHERE name ILIKE '%${value}%'`;
+        break;
+      case "position":
+        query += ` WHERE position = '${value}'`;
+        break;
+      case "phone":
+        query += ` WHERE phone = '${value}'`;
+        break;
+      case "email":
+        query += ` WHERE email = '${value}'`;
+        break;
+    
+      default:
+        break;
+    }
+  }
+  );
   try {
     const { rows } = await pool.query(query);
+    if (rows.length === 0) throw new Error("not found");
     return Response.json({ data: rows });
   } catch (error: any) {
     return errorHandler(error);
