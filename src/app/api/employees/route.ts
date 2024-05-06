@@ -19,6 +19,18 @@ export async function GET(req: NextRequest) {
       case "email":
         query += ` WHERE email = '${value}'`;
         break;
+      case "limit":
+        query += ` LIMIT ${value}`;
+        break;
+      case "offset":
+        query += ` OFFSET ${value}`;
+        break;
+      case "sort":
+        query += ` ORDER BY ${value}`;
+        break;
+      case "order":
+        query += ` ${value}`;
+        break;
     
       default:
         break;
